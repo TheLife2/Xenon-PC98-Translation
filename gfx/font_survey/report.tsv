@@ -1,0 +1,45 @@
+순위	글꼴	파일	인덱스	웨이트	글자크기	거리	잉크비율	세로평균	세로변동계수	가로평균	가로변동계수
+0	** 원본 **	XENON2.GDT	-	-	-	0.000	0.1606	4.303	1.0731	5.931	1.0386
+1	Gungsuh Regular	batang.ttc	2	-	49	1.8501	0.1501	6.754	1.1361	7.086	0.8956
+2	Ami R Regular	HMKMAMI.TTF	0	-	71	1.8714	0.1296	5.569	1.2914	5.830	0.9010
+3	GungsuhChe Regular	batang.ttc	3	-	48	1.8856	0.1418	6.506	1.1427	6.905	0.8801
+4	HYGungSo-Bold Regular	H2GSRB.TTF	0	-	49	1.9166	0.1396	6.447	1.1766	6.758	0.9118
+5	Noto Serif KR ExtraLight [Medium]	NotoSerifKR-VF.ttf	0	Medium	51	1.9216	0.1497	5.617	1.4549	6.459	1.0805
+6	HYPost-Light Regular	H2PORL.TTF	0	-	49	1.9399	0.1285	4.893	0.9895	6.534	1.1678
+7	Pyunji R Regular	HMFMPYUN.TTF	0	-	59	2.0152	0.1299	6.448	1.0080	5.855	0.8179
+8	Noto Serif KR ExtraLight [Regular]	NotoSerifKR-VF.ttf	0	Regular	51	2.0498	0.1288	4.795	1.5727	5.611	1.1473
+9	HYMyeongJo-Extra Regular	H2MJRE.TTF	0	-	49	2.1494	0.1589	6.571	1.3168	7.219	0.8795
+10	HYPost-Medium Regular	H2PORM.TTF	0	-	49	2.1868	0.1566	6.086	0.8634	8.259	1.0297
+11	Dotum Regular	gulim.ttc	2	-	49	2.2599	0.1237	4.865	1.3748	6.040	1.2188
+12	Noto Serif KR ExtraLight [SemiBold]	NotoSerifKR-VF.ttf	0	SemiBold	51	2.3143	0.1697	6.377	1.3828	7.375	0.9928
+13	DotumChe Regular	gulim.ttc	3	-	48	2.3583	0.1115	4.452	1.4515	5.573	1.2490
+14	Noto Sans KR Thin [DemiLight]	NotoSansKR-VF.ttf	0	DemiLight	53	2.4003	0.1639	5.909	1.4061	6.804	1.1410
+15	Noto Sans KR Thin [Regular]	NotoSansKR-VF.ttf	0	Regular	53	2.4190	0.1793	6.507	1.2847	7.486	1.1166
+16	Malgun Gothic Regular	malgun.ttf	0	-	49	2.4829	0.1463	5.628	1.4379	6.325	1.1612
+17	HYPMokGak-Bold Regular	H2MKPB.TTF	0	-	49	2.4900	0.1908	6.681	0.9070	8.553	0.9041
+18	HYGothic-Medium Regular	H2GTRM.TTF	0	-	49	2.4939	0.1349	5.110	1.4418	6.152	1.2055
+19	Noto Serif KR ExtraLight [Light]	NotoSerifKR-VF.ttf	0	Light	51	2.5876	0.1146	4.280	1.6740	4.974	1.2512
+20	Noto Serif KR ExtraLight [Bold]	NotoSerifKR-VF.ttf	0	Bold	51	2.8271	0.1975	7.400	1.2677	8.522	0.8906
+21	HYSinMyeongJo-Medium Regular	H2MJSM.TTF	0	-	49	2.8410	0.0924	3.716	1.8073	4.150	1.0384
+22	HYGraphic-Medium Regular	H2GPRM.TTF	0	-	49	2.8912	0.1087	4.053	1.8532	4.827	1.1973
+23	Noto Serif KR ExtraLight [ExtraLight]	NotoSerifKR-VF.ttf	0	ExtraLight	51	2.9084	0.1076	4.064	1.7515	4.642	1.2749
+24	Noto Sans KR Thin [Light]	NotoSansKR-VF.ttf	0	Light	53	2.9194	0.1183	4.258	1.6987	4.955	1.3285
+25	Malgun Gothic Semilight	malgunsl.ttf	0	-	49	3.0351	0.1118	4.237	1.7240	4.806	1.3065
+26	New Gulim Regular	NGULIM.TTF	0	-	49	3.0574	0.1049	3.873	1.6283	4.730	1.3347
+27	Gulim Regular	gulim.ttc	0	-	49	3.0574	0.1049	3.873	1.6283	4.730	1.3347
+28	GulimChe Regular	gulim.ttc	1	-	48	3.1184	0.0976	3.699	1.5908	4.480	1.4011
+29	Batang Regular	batang.ttc	0	-	49	3.2407	0.0885	3.571	1.9071	3.936	1.0998
+30	Noto Sans KR Thin [Medium]	NotoSansKR-VF.ttf	0	Medium	53	3.2843	0.2249	8.095	1.1913	9.202	0.9493
+31	BatangChe Regular	batang.ttc	1	-	48	3.3199	0.0844	3.479	1.9185	3.875	1.1106
+32	Noto Serif KR ExtraLight [Black]	NotoSerifKR-VF.ttf	0	Black	51	3.5477	0.2304	8.687	1.1612	10.169	0.8290
+33	HYShortSamul-Medium Regular	H2SA1M.TTF	0	-	66	3.7765	0.1648	9.733	0.9041	8.325	0.6323
+34	Malgun Gothic Bold	malgunbd.ttf	0	-	49	3.8547	0.2347	9.013	1.0597	10.223	0.8810
+35	Magic R Regular	HMKMMAG.TTF	0	-	63	3.9323	0.2030	8.564	0.8106	9.865	0.6085
+36	Noto Sans KR Thin [Thin]	NotoSansKR-VF.ttf	0	Thin	53	4.2999	0.0884	3.188	1.8737	3.710	1.7089
+37	HYHeadLine-Medium Regular	H2HDRM.TTF	0	-	49	4.4369	0.2767	9.779	1.0685	11.089	0.8650
+38	HYGothic-Extra Regular	H2GTRE.TTF	0	-	49	4.6810	0.2828	9.871	1.0063	11.889	0.8565
+39	Noto Sans KR Thin [Bold]	NotoSansKR-VF.ttf	0	Bold	53	4.7387	0.2854	10.307	1.0289	11.557	0.8237
+40	Segoe UI Symbol Regular	seguisym.ttf	0	-	75	4.9177	0.2464	13.295	1.3302	8.815	1.0783
+41	Noto Sans KR Thin [Black]	NotoSansKR-VF.ttf	0	Black	53	6.2760	0.3437	12.469	0.9249	13.867	0.7273
+42	Headline R Regular	HMKMRHD.TTF	0	-	48	6.8485	0.3577	13.623	0.8715	14.613	0.6975
+43	Gabriola Regular	Gabriola.ttf	0	-	88	8.9451	0.3941	19.652	0.8218	23.161	1.1977

@@ -1,0 +1,27 @@
+# --- 게임 원본/저작물 - 저장소에 올리지 않는다 ---------------------------
+# 빌드된 디스크 이미지(게임 전체가 들어 있다)와 실행 결과물
+out/
+# 게임에서 추출한 원본 그래픽과 그 렌더링 (CG 아트 포함)
+gfx/raw/
+gfx/png/
+gfx/png_adt/
+gfx/sheet_*.png
+gfx/ui_text.png
+gfx/AGS.EXE
+# 게임 스크립트 바이너리 (원본/병합/압축)
+scripts_src/
+scripts_merge/
+scripts_build/
+
+# 글꼴 비교 렌더 (미리보기에 게임 배경이 합성돼 있다. report.tsv 만 남긴다)
+gfx/font_survey/*.png
+gfx/font_survey/each/
+
+# --- 작업 부산물 -------------------------------------------------------
+*.bak.*
+translation/batches/
+translation/새 폴더/
+translation/todo/
+translation/review/
+__pycache__/
+*.pyc
