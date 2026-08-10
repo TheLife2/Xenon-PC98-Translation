@@ -15,6 +15,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import kocfg as C
 import da1
+import da1w                     # 워드모드(flags 0F00) 포함 통합 디코더
 
 GFX = os.path.join(C.ROOT, "gfx")
 RAW = os.path.join(GFX, "raw")
@@ -58,8 +59,8 @@ def main():
         for i, (o, s) in enumerate(ent):
             seg = d[o:o + s]
             try:
-                m = da1.decode_full(seg)
-                h = da1.parse_header(seg)
+                m = da1w.decode_full(seg)
+                h = da1w.parse_header(seg)
             except Exception as e:
                 print("  #%02d %6dB  디코드 실패: %s" % (i, s, e))
                 continue
@@ -68,7 +69,7 @@ def main():
                   % (i, s, m["w"] * 8, m["h"], h["x"] * 8, h["y"], pal))
             total += 1
             if cmd == "png":
-                px = da1._compose(m)
+                px = da1w.compose(m)
                 raw = m["palette_raw"]
                 if raw is None:
                     # 팔레트 없는 차분 - 본체 GDT 의 팔레트를 빌린다
@@ -84,7 +85,7 @@ def main():
                 pal16 = da1.palette_rgb(raw, "GRB") if raw else None
                 lut = ([pal16[k] for k in range(16)] if pal16
                        else [(k * 17,) * 3 for k in range(16)])
-                am = da1.alpha_mask(m)
+                am = da1w.alpha_mask(m)
                 img = Image.new("RGBA", (m["w"] * 8, m["h"]))
                 img.putdata([(lut[v][0], lut[v][1], lut[v][2], am[j])
                              for j, v in enumerate(px)])

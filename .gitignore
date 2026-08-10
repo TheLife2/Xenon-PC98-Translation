@@ -5,9 +5,17 @@ out/
 gfx/raw/
 gfx/png/
 gfx/png_adt/
+gfx/png_anim/
+gfx/png_word/
 gfx/sheet_*.png
 gfx/ui_text.png
 gfx/AGS.EXE
+gfx/AGS.reko/
+
+# ADT 컨테이너 편집본은 원본 프레임 28개를 그대로 안고 있어 사실상 게임 자산이다.
+# (다른 gfx/edit/*.GDT 는 우리가 다시 그린 스프라이트라 성격이 다르다)
+# tools/gfx_adt_credit.py 로 각자 재생성한다.
+gfx/edit/*.ADT
 # 게임 스크립트 바이너리 (원본/병합/압축)
 scripts_src/
 scripts_merge/

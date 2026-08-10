@@ -37,6 +37,8 @@ def pending():
 
 def check(name, data):
     """넣기 전 확인. 문제가 있으면 사유 문자열, 없으면 None."""
+    if data[:3] == b"ADT":
+        return check_adt(name, data)
     if data[:4] != da1.MAGIC:
         return "매직이 DA1\\0 이 아니다"
     try:
@@ -65,6 +67,32 @@ def check(name, data):
     return None
 
 
+def check_adt(name, data):
+    """ADT 컨테이너: 프레임 수가 원본과 같고 전부 디코드되는지 본다."""
+    import da1w
+    from gfx_adt import entries
+    orig = os.path.join(RAW, name)
+    try:
+        ent = entries(data)
+    except Exception as e:
+        return f"컨테이너를 못 걷는다: {e}"
+    if os.path.isfile(orig):
+        try:
+            n0 = len(entries(open(orig, "rb").read()))
+        except Exception:
+            n0 = None
+        if n0 is not None and n0 != len(ent):
+            return f"프레임 수가 다르다 ({n0} -> {len(ent)})"
+    for i, (o, s) in enumerate(ent):
+        sub = data[o:o + s]
+        try:
+            mod = da1 if da1.parse_header(sub)["byte_mode"] else da1w
+            mod.decode_full(sub, strict=True)
+        except Exception as e:
+            return f"프레임 {i} 디코드 실패: {e}"
+    return None
+
+
 def apply(hdi, write):
     items = pending()
     if not items:
@@ -79,10 +107,15 @@ def apply(hdi, write):
         if why:
             print(f"  [거부] {name}: {why}")
             continue
-        h = da1.parse_header(data)
         d = len(data) - oldsize
-        print(f"  {name}: {oldsize} -> {len(data)} ({d:+d}B)  "
-              f"{h['w']*8}x{h['h']} @({h['x']*8},{h['y']})")
+        if data[:3] == b"ADT":
+            from gfx_adt import entries
+            print(f"  {name}: {oldsize} -> {len(data)} ({d:+d}B)  "
+                  f"ADT 컨테이너 {len(entries(data))}프레임")
+        else:
+            h = da1.parse_header(data)
+            print(f"  {name}: {oldsize} -> {len(data)} ({d:+d}B)  "
+                  f"{h['w']*8}x{h['h']} @({h['x']*8},{h['y']})")
         if write:
             need, had = fs.write(name, data)
             if need > had:
