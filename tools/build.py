@@ -93,7 +93,26 @@ def main():
     except Exception as e:
         print(f"  건너뜀: {e}")
 
-    step(8, "이미지 재검증")
+    step(8, "AGS.EXE 문자열 패치")
+    try:
+        import exe_patch
+        data, rows, bad = exe_patch.check(verbose=False)
+        if bad:
+            for b in bad:
+                print("  [문제] " + b)
+            print("  건너뜀 — translation/exe_strings.txt 를 고치세요")
+        elif rows:
+            for off, raw, enc, jp, ko in rows:
+                data[off:off + len(raw)] = enc + b"\x00" * (len(raw) - len(enc))
+            fs2 = Fat12(out)
+            need, had = fs2.write("AGS.EXE", bytes(data))
+            fs2.save(out)
+            print(f"  문자열 {len(rows)}건 교체, AGS.EXE {len(data):,} 바이트 "
+                  f"(클러스터 {had} -> {need})")
+    except Exception as e:
+        print(f"  건너뜀: {e}")
+
+    step(9, "이미지 재검증")
     chk = Fat12(out)
     bad = 0
     for name in C.SCRIPT_NAMES:

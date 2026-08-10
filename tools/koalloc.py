@@ -26,8 +26,20 @@ def scan_chars(pairs):
     return out
 
 
+def extra_pairs():
+    """스크립트 밖에서 한글이 쓰이는 곳 — 여기 글자도 슬롯이 필요하다.
+
+    현재는 `translation/exe_strings.txt` (AGS.EXE 하드코딩 UI 문구) 하나다.
+    빠뜨리면 그 글자가 폰트 시트에 안 들어가 화면에서 깨진다.
+    """
+    p = os.path.join(C.ROOT, "translation", "exe_strings.txt")
+    if not os.path.isfile(p):
+        return []
+    return [(jp, ko) for jp, ko in C.load_pairs(p) if ko.strip()]
+
+
 def allocate(verbose=True):
-    pairs = C.load_pairs()
+    pairs = C.load_pairs() + extra_pairs()
     table = C.load_table()
     used = {b for b in table.values()}
     gen = C.slots()
