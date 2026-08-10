@@ -115,26 +115,27 @@ def do_menu(name, png, items, write):
 
 
 def do_rogo(write):
-    """로고 마크와 「C's ware presents」 사이의 빈 검정 띠(y258..276)에
-    「번역: THL.kr」 를 넣는다.
+    """시작 로고(C's ware)에 「번역: THL.kr」 를 넣는다.
 
-    처음엔 문구를 위로 올리고 맨 아래(y315..333)에 넣었는데 실기에서 잘렸다.
-    이 자리는 원본 구도를 전혀 옮기지 않고, 화면 세로 중앙부라 잘릴 수 없다.
+    ⛔ 자리를 옮기지 마라. 실기에서 **y246~288 은 화면에 나오지 않는다.**
+       게임이 스프라이트를 그린 뒤 그 띠를 덮어쓴다.
+       (2026-08-10 대조 실험으로 확정 — 같은 문구를 y200 과 y265 에 동시에 넣고
+        DOSBox-X 로 캡처했더니 y200 만 보였다. 파일에는 둘 다 들어 있었다.)
+       원본에서 그 띠가 비어 있어 아무도 눈치채지 못한 것으로 보인다.
+
+       살아남는 구간은 y <= 245(로고 마크)와 y >= 289(「C's ware presents」)뿐이라
+       검은 여백에 넣을 수는 없다. 마크 아래쪽 끝이 가장 덜 방해된다.
     """
     name, png = "ROGO.GDT", "ROGO_GDT.png"
     orig = Image.open(os.path.join(GFX, "png", png)).convert("RGB")
     img = orig.copy()
     W, H = img.size
-    box = (0, 258, W, 276)
-    po = orig.load()
-    for y in range(box[1], box[3]):
-        for x in range(W):
-            if po[x, y] != (0, 0, 0):
-                raise SystemExit("크레딧 자리에 그림이 있다 (y=%d)" % y)
+    box = (0, 226, W, 245)                  # 안전 구간의 맨 아래
     dr = ImageDraw.Draw(img)
-    text_centered(dr, "번역: THL.kr", box, 14, MINT, tracking=1)
+    text_centered(dr, "번역: THL.kr", box, 14, (255, 255, 255), tracking=1)
     leak_check(name, orig, img, [box])
-    return finish(name, png, img, write)
+    # 원본이 투명한 자리에도 그리려면 전면 불투명 인코딩이 필요하다 (finish 주석)
+    return finish(name, png, img, write, flat=True)
 
 
 def do_books(write):
@@ -170,7 +171,15 @@ def do_books(write):
     return finish(name, png, img, write)
 
 
-def finish(name, png, img, write):
+def finish(name, png, img, write, flat=False):
+    """flat=True 면 네 평면을 모두 쓴다.
+
+    ⚠ 원본이 **투명한 자리**에 새로 글자를 그렸다면 flat 이 필수다.
+    `da1enc frompng` 는 기본적으로 원본의 평면별 투명도를 그대로 물려받아,
+    원본에서 안 그리던 행은 새 픽셀이 있어도 "안 그림" 으로 인코딩한다.
+    ROGO 의 로고와 문구 사이 빈 띠(y246~288)가 정확히 그 경우였고,
+    그래서 크레딧이 파일에는 있는데 화면에 안 나왔다 (2026-08-10 실기 확인).
+    """
     out_png = os.path.join(GFX, "png", png.replace("_GDT", "_KO"))
     img.save(out_png)
     if not write:
@@ -178,11 +187,42 @@ def finish(name, png, img, write):
     src = os.path.join(GFX, "raw", name)
     out_gdt = os.path.join(GFX, "edit", name)
     os.makedirs(os.path.join(GFX, "edit"), exist_ok=True)
+    a = os.path.getsize(src)
+
+    if flat:
+        # frompng 는 원본에서 **아무 평면도 안 쓴 칸**을 계속 투명으로 남긴다.
+        # (`--flat` 은 일부 평면만 쓴 칸에만 듣는다) 그래서 원본이 비어 있던 자리에
+        # 새로 그린 글자가 파일에는 있어도 화면에 안 나온다.
+        # encode() 를 직접 불러 **사각형 전체를 불투명**으로 만든다.
+        import da1enc
+        om = da1.decode_full(open(src, "rb").read())
+        oh = da1.parse_header(open(src, "rb").read())
+        pal = [tuple(c) for c in da1.palette_rgb(om["palette_raw"], "GRB")]
+        inv = {}
+        for i, c in enumerate(pal):
+            inv.setdefault(c, i)
+        W, H = img.size
+        px = []
+        for c in img.convert("RGB").getdata():
+            px.append(inv[c] if c in inv else
+                      min(range(16), key=lambda i: sum((p - q) ** 2
+                                                       for p, q in zip(pal[i], c))))
+        enc = da1enc.encode(bytes(px), W, H, oh["x"], oh["y"],
+                            palette=om["palette_raw"], alpha=b"\xff" * (W * H),
+                            flags=oh["flags"])
+        open(out_gdt, "wb").write(enc)
+        m2 = da1.decode_full(enc, strict=True)
+        ok = bytes(da1._compose(m2)) == bytes(px)
+        print("   -> %s  %d -> %d 바이트 (전면 불투명)  검증 %s"
+              % (name, a, len(enc), "OK" if ok else "실패"))
+        if not ok:
+            raise SystemExit("재디코드 픽셀 불일치")
+        return ok
+
     r = subprocess.run([sys.executable, os.path.join(C.ROOT, "tools", "da1enc.py"),
                         "frompng", src, out_png, out_gdt],
                        capture_output=True, text=True, encoding="utf-8")
     ok = "MATCHES" in (r.stdout or "")
-    a = os.path.getsize(src)
     b = os.path.getsize(out_gdt) if os.path.isfile(out_gdt) else 0
     print("   -> %s  %d -> %d 바이트  검증 %s" % (name, a, b, "OK" if ok else "실패"))
     if not ok:

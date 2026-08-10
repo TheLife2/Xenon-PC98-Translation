@@ -25,6 +25,10 @@ scripts_build/
 gfx/font_survey/*.png
 gfx/font_survey/each/
 
+# DOSBox-X 디버깅 작업 폴더 (디스크 이미지 사본·로그). dbg.conf 만 올린다
+dbg/*
+!dbg/dbg.conf
+
 # --- 작업 부산물 -------------------------------------------------------
 *.bak.*
 translation/batches/

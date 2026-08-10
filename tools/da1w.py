@@ -176,6 +176,8 @@ def _word_column(data, si, end, plane, planes, mask, di, trace=None):
                 di += 80
 
         elif op == 0xFD:                                 # 2행 패턴
+            if si + (2 if n < 0x80 else 4) > end:
+                raise Da1Error("FD operand overrun")
             if n < 0x80:                                 # 바이트 2개를 각각 확장
                 b0, b1 = data[si], data[si + 1]; si += 2
                 rows = (_rep(b0), _rep(b1))
@@ -193,6 +195,9 @@ def _word_column(data, si, end, plane, planes, mask, di, trace=None):
                 di += 160
 
         elif op == 0xFE:                                 # 4행 패턴 (4갈래)
+            if si + (4 if n < 0x40 else 2 if n < 0x80
+                     else 4 if n < 0xC0 else 8) > end:
+                raise Da1Error("FE operand overrun")
             if n < 0x40:
                 # AGS.EXE 0x4abe 를 그대로 옮긴 것. b1/b2 를 버리는 기묘한 조합이지만
                 # 바이너리가 이렇게 한다.
